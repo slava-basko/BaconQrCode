@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCodeTest\Encoder;
 
@@ -21,7 +20,7 @@ final class EncoderTest extends TestCase
      */
     protected $methods = [];
 
-    public function setUp() : void
+    public function setUp()
     {
         // Hack to be able to test protected methods
         $reflection = new ReflectionClass(Encoder::class);
@@ -32,7 +31,7 @@ final class EncoderTest extends TestCase
         }
     }
 
-    public function testGetAlphanumericCode() : void
+    public function testGetAlphanumericCode()
     {
         // The first ten code points are numbers.
         for ($i = 0; $i < 10; ++$i) {
@@ -62,7 +61,7 @@ final class EncoderTest extends TestCase
         $this->assertSame(-1, $this->methods['getAlphanumericCode']->invoke(null, ord("\0")));
     }
 
-    public function testChooseMode() : void
+    public function testChooseMode()
     {
         // Numeric mode
         $this->assertSame(Mode::NUMERIC(), $this->methods['chooseMode']->invoke(null, '0'));
@@ -90,7 +89,7 @@ final class EncoderTest extends TestCase
         $this->assertSame(Mode::BYTE(), $this->methods['chooseMode']->invoke(null, "\xe\x4\x9\x5\x9\x61"));
     }
 
-    public function testEncode() : void
+    public function testEncode()
     {
         $qrCode = Encoder::encode('ABCDEF', ErrorCorrectionLevel::H());
         $expected = "<<\n"
@@ -125,7 +124,7 @@ final class EncoderTest extends TestCase
         $this->assertSame($expected, (string) $qrCode);
     }
 
-    public function testSimpleUtf8Eci() : void
+    public function testSimpleUtf8Eci()
     {
         $qrCode = Encoder::encode('hello', ErrorCorrectionLevel::H(), 'utf-8');
         $expected = "<<\n"
@@ -160,14 +159,14 @@ final class EncoderTest extends TestCase
         $this->assertSame($expected, (string) $qrCode);
     }
 
-    public function testAppendModeInfo() : void
+    public function testAppendModeInfo()
     {
         $bits = new BitArray();
         $this->methods['appendModeInfo']->invoke(null, Mode::NUMERIC(), $bits);
         $this->assertSame(' ...X', (string) $bits);
     }
 
-    public function testAppendLengthInfo() : void
+    public function testAppendLengthInfo()
     {
         // 1 letter (1/1), 10 bits.
         $bits = new BitArray();
@@ -214,7 +213,7 @@ final class EncoderTest extends TestCase
         $this->assertSame(' ..X..... ....', (string) $bits);
     }
 
-    public function testAppendBytes() : void
+    public function testAppendBytes()
     {
         // Should use appendNumericBytes.
         // 1 = 01 = 0001 in 4 bits.
@@ -265,7 +264,7 @@ final class EncoderTest extends TestCase
         $this->assertSame(' .XX.XX.. XXXXX', (string) $bits);
 
         // Lower letters such as 'a' cannot be encoded in alphanumeric mode.
-        $this->expectException(WriterException::class);
+        $this->setExpectedException(WriterException::class);
         $this->methods['appendBytes']->invoke(
             null,
             'a',
@@ -275,7 +274,7 @@ final class EncoderTest extends TestCase
         );
     }
 
-    public function testTerminateBits() : void
+    public function testTerminateBits()
     {
         $bits = new BitArray();
         $this->methods['terminateBits']->invoke(null, 0, $bits);
@@ -310,7 +309,7 @@ final class EncoderTest extends TestCase
         $this->assertSame(' ........ XXX.XX.. ...X...X', (string) $bits);
     }
 
-    public function testGetNumDataBytesAndNumEcBytesForBlockId() : void
+    public function testGetNumDataBytesAndNumEcBytesForBlockId()
     {
         // Version 1-H.
         list($numDataBytes, $numEcBytes) = $this->methods['getNumDataBytesAndNumEcBytesForBlockId']
@@ -353,7 +352,7 @@ final class EncoderTest extends TestCase
         $this->assertSame(30, $numEcBytes);
     }
 
-    public function testInterleaveWithEcBytes() : void
+    public function testInterleaveWithEcBytes()
     {
         $dataBytes = SplFixedArray::fromArray([32, 65, 205, 69, 41, 220, 46, 128, 236], false);
         $in        = new BitArray();
@@ -375,7 +374,7 @@ final class EncoderTest extends TestCase
         $this->assertEquals($expected, $out);
     }
 
-    public function testAppendNumericBytes() : void
+    public function testAppendNumericBytes()
     {
         // 1 = 01 = 0001 in 4 bits.
         $bits = new BitArray();
@@ -403,7 +402,7 @@ final class EncoderTest extends TestCase
         $this->assertSame('', (string) $bits);
     }
 
-    public function testAppendAlphanumericBytes() : void
+    public function testAppendAlphanumericBytes()
     {
         $bits = new BitArray();
         $this->methods['appendAlphanumericBytes']->invoke(null, 'A', $bits);
@@ -423,12 +422,12 @@ final class EncoderTest extends TestCase
         $this->assertSame('', (string) $bits);
 
         // Invalid data
-        $this->expectException(WriterException::class);
+        $this->setExpectedException(WriterException::class);
         $bits = new BitArray();
         $this->methods['appendAlphanumericBytes']->invoke(null, 'abc', $bits);
     }
 
-    public function testAppend8BitBytes() : void
+    public function testAppend8BitBytes()
     {
         // 0x61, 0x62, 0x63
         $bits = new BitArray();
@@ -441,7 +440,7 @@ final class EncoderTest extends TestCase
         $this->assertSame('', (string) $bits);
     }
 
-    public function testAppendKanjiBytes() : void
+    public function testAppendKanjiBytes()
     {
         // Numbers are from page 21 of JISX0510:2004
         $bits = new BitArray();
@@ -452,7 +451,7 @@ final class EncoderTest extends TestCase
         $this->assertSame(' .XX.XX.. XXXXXXX. X.X.X.X. X.', (string) $bits);
     }
 
-    public function testGenerateEcBytes() : void
+    public function testGenerateEcBytes()
     {
         // Numbers are from http://www.swetake.com/qr/qr3.html and
         // http://www.swetake.com/qr/qr9.html

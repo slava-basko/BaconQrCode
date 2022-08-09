@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Renderer\Color;
 
@@ -20,7 +19,7 @@ final class Alpha implements ColorInterface
     /**
      * @param int $alpha the alpha value, 0 to 100
      */
-    public function __construct(int $alpha, ColorInterface $baseColor)
+    public function __construct($alpha, ColorInterface $baseColor)
     {
         if ($alpha < 0 || $alpha > 100) {
             throw new Exception\InvalidArgumentException('Alpha must be between 0 and 100');
@@ -30,27 +29,27 @@ final class Alpha implements ColorInterface
         $this->baseColor = $baseColor;
     }
 
-    public function getAlpha() : int
+    public function getAlpha()
     {
         return $this->alpha;
     }
 
-    public function getBaseColor() : ColorInterface
+    public function getBaseColor()
     {
         return $this->baseColor;
     }
 
-    public function toRgb() : Rgb
+    public function toRgb()
     {
         return $this->baseColor->toRgb();
     }
 
-    public function toCmyk() : Cmyk
+    public function toCmyk()
     {
         return $this->baseColor->toCmyk();
     }
 
-    public function toGray() : Gray
+    public function toGray()
     {
         return $this->baseColor->toGray();
     }

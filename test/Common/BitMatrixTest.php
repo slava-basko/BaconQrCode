@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCodeTest\Common;
 
@@ -9,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class BitMatrixTest extends TestCase
 {
-    public function testGetSet() : void
+    public function testGetSet()
     {
         $matrix = new BitMatrix(33);
         $this->assertEquals(33, $matrix->getHeight());
@@ -29,7 +28,7 @@ class BitMatrixTest extends TestCase
         }
     }
 
-    public function testSetRegion() : void
+    public function testSetRegion()
     {
         $matrix = new BitMatrix(5);
         $matrix->setRegion(1, 1, 3, 3);
@@ -41,7 +40,7 @@ class BitMatrixTest extends TestCase
         }
     }
 
-    public function testRectangularMatrix() : void
+    public function testRectangularMatrix()
     {
         $matrix = new BitMatrix(75, 20);
         $this->assertSame(75, $matrix->getWidth());
@@ -68,7 +67,7 @@ class BitMatrixTest extends TestCase
         $this->assertFalse($matrix->get(51, 3));
     }
 
-    public function testRectangularSetRegion() : void
+    public function testRectangularSetRegion()
     {
         $matrix = new BitMatrix(320, 240);
         $this->assertSame(320, $matrix->getWidth());
@@ -83,7 +82,7 @@ class BitMatrixTest extends TestCase
         }
     }
 
-    public function testGetRow() : void
+    public function testGetRow()
     {
         $matrix = new BitMatrix(102, 5);
 

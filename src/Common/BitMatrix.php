@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Common;
 
@@ -46,7 +45,7 @@ class BitMatrix
     /**
      * @throws InvalidArgumentException if a dimension is smaller than zero
      */
-    public function __construct(int $width, int $height = null)
+    public function __construct($width, $height = null)
     {
         if (null === $height) {
             $height = $width;
@@ -65,7 +64,7 @@ class BitMatrix
     /**
      * Gets the requested bit, where true means black.
      */
-    public function get(int $x, int $y) : bool
+    public function get($x, $y)
     {
         $offset = $y * $this->rowSize + ($x >> 5);
         return 0 !== (BitUtils::unsignedRightShift($this->bits[$offset], ($x & 0x1f)) & 1);
@@ -74,7 +73,7 @@ class BitMatrix
     /**
      * Sets the given bit to true.
      */
-    public function set(int $x, int $y) : void
+    public function set($x, $y)
     {
         $offset = $y * $this->rowSize + ($x >> 5);
         $this->bits[$offset] = $this->bits[$offset] | (1 << ($x & 0x1f));
@@ -83,7 +82,7 @@ class BitMatrix
     /**
      * Flips the given bit.
      */
-    public function flip(int $x, int $y) : void
+    public function flip($x, $y)
     {
         $offset = $y * $this->rowSize + ($x >> 5);
         $this->bits[$offset] = $this->bits[$offset] ^ (1 << ($x & 0x1f));
@@ -92,7 +91,7 @@ class BitMatrix
     /**
      * Clears all bits (set to false).
      */
-    public function clear() : void
+    public function clear()
     {
         $max = count($this->bits);
 
@@ -108,7 +107,7 @@ class BitMatrix
      * @throws InvalidArgumentException if width or height are smaller than 1
      * @throws InvalidArgumentException if region does not fit into the matix
      */
-    public function setRegion(int $left, int $top, int $width, int $height) : void
+    public function setRegion($left, $top, $width, $height)
     {
         if ($top < 0 || $left < 0) {
             throw new InvalidArgumentException('Left and top must be non-negative');
@@ -138,7 +137,7 @@ class BitMatrix
     /**
      * A fast method to retrieve one row of data from the matrix as a BitArray.
      */
-    public function getRow(int $y, BitArray $row = null) : BitArray
+    public function getRow($y, BitArray $row = null)
     {
         if (null === $row || $row->getSize() < $this->width) {
             $row = new BitArray($this->width);
@@ -156,7 +155,7 @@ class BitMatrix
     /**
      * Sets a row of data from a BitArray.
      */
-    public function setRow(int $y, BitArray $row) : void
+    public function setRow($y, BitArray $row)
     {
         $bits = $row->getBitArray();
 
@@ -170,7 +169,7 @@ class BitMatrix
      *
      * @return int[]|null
      */
-    public function getEnclosingRectangle() : ?array
+    public function getEnclosingRectangle()
     {
         $left = $this->width;
         $top = $this->height;
@@ -234,7 +233,7 @@ class BitMatrix
      *
      * @return int[]|null
      */
-    public function getTopLeftOnBit() : ?array
+    public function getTopLeftOnBit()
     {
         $bitsOffset = 0;
 
@@ -268,7 +267,7 @@ class BitMatrix
      *
      * @return int[]|null
      */
-    public function getBottomRightOnBit() : ?array
+    public function getBottomRightOnBit()
     {
         $bitsOffset = count($this->bits) - 1;
 
@@ -298,7 +297,7 @@ class BitMatrix
     /**
      * Gets the width of the matrix,
      */
-    public function getWidth() : int
+    public function getWidth()
     {
         return $this->width;
     }
@@ -306,7 +305,7 @@ class BitMatrix
     /**
      * Gets the height of the matrix.
      */
-    public function getHeight() : int
+    public function getHeight()
     {
         return $this->height;
     }

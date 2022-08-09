@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCodeTest\Common;
 
@@ -8,14 +7,14 @@ use PHPUnit\Framework\TestCase;
 
 class BitUtilsTest extends TestCase
 {
-    public function testUnsignedRightShift() : void
+    public function testUnsignedRightShift()
     {
         $this->assertSame(1, BitUtils::unsignedRightShift(1, 0));
         $this->assertSame(1, BitUtils::unsignedRightShift(10, 3));
         $this->assertSame(536870910, BitUtils::unsignedRightShift(-10, 3));
     }
 
-    public function testNumberOfTrailingZeros() : void
+    public function testNumberOfTrailingZeros()
     {
         $this->assertSame(32, BitUtils::numberOfTrailingZeros(0));
         $this->assertSame(1, BitUtils::numberOfTrailingZeros(10));

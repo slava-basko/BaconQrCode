@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCodeTest\Common;
 
@@ -9,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class VersionTest extends TestCase
 {
-    public function versions() : array
+    public function versions()
     {
         $array = [];
 
@@ -20,7 +19,7 @@ class VersionTest extends TestCase
         return $array;
     }
 
-    public function decodeInformation() : array
+    public function decodeInformation()
     {
         return [
             [7, 0x07c94],
@@ -35,7 +34,7 @@ class VersionTest extends TestCase
     /**
      * @dataProvider versions
      */
-    public function testVersionForNumber(int $versionNumber, int $dimension) : void
+    public function testVersionForNumber($versionNumber, $dimension)
     {
         $version = Version::getVersionForNumber($versionNumber);
 
@@ -58,7 +57,7 @@ class VersionTest extends TestCase
     /**
      * @dataProvider versions
      */
-    public function testGetProvisionalVersionForDimension(int $versionNumber, int $dimension) : void
+    public function testGetProvisionalVersionForDimension($versionNumber, $dimension)
     {
         $this->assertSame(
             $versionNumber,
@@ -69,7 +68,7 @@ class VersionTest extends TestCase
     /**
      * @dataProvider decodeInformation
      */
-    public function testDecodeVersionInformation(int $expectedVersion, int $mask) : void
+    public function testDecodeVersionInformation($expectedVersion, $mask)
     {
         $version = Version::decodeVersionInformation($mask);
         $this->assertNotNull($version);

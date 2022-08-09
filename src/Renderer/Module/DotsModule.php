@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Renderer\Module;
 
@@ -12,16 +11,16 @@ use BaconQrCode\Renderer\Path\Path;
  */
 final class DotsModule implements ModuleInterface
 {
-    public const LARGE = 1;
-    public const MEDIUM = .8;
-    public const SMALL = .6;
+    const LARGE = 1;
+    const MEDIUM = .8;
+    const SMALL = .6;
 
     /**
      * @var float
      */
     private $size;
 
-    public function __construct(float $size)
+    public function __construct($size)
     {
         if ($size <= 0 || $size > 1) {
             throw new InvalidArgumentException('Size must between 0 (exclusive) and 1 (inclusive)');
@@ -30,7 +29,7 @@ final class DotsModule implements ModuleInterface
         $this->size = $size;
     }
 
-    public function createPath(ByteMatrix $matrix) : Path
+    public function createPath(ByteMatrix $matrix)
     {
         $width = $matrix->getWidth();
         $height = $matrix->getHeight();

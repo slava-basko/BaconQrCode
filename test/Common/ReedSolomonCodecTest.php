@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCodeTest\Common;
 
@@ -9,7 +8,7 @@ use SplFixedArray;
 
 class ReedSolomonTest extends TestCase
 {
-    public function tabs() : array
+    public function tabs()
     {
         return [
             [2, 0x7, 1, 1, 1],
@@ -25,9 +24,9 @@ class ReedSolomonTest extends TestCase
     /**
      * @dataProvider tabs
      */
-    public function testCodec(int $symbolSize, int $generatorPoly, int $firstRoot, int $primitive, int $numRoots) : void
+    public function testCodec($symbolSize, $generatorPoly, $firstRoot, $primitive, $numRoots)
     {
-        mt_srand(0xdeadbeef, MT_RAND_PHP);
+        mt_srand(0xdeadbeef);
 
         $blockSize = (1 << $symbolSize) - 1;
         $dataSize  = $blockSize - $numRoots;

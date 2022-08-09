@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCodeTest\Encoder;
 
@@ -19,7 +18,7 @@ class MatrixUtilTest extends TestCase
      */
     protected $methods = [];
 
-    public function setUp() : void
+    public function setUp()
     {
         // Hack to be able to test protected methods
         $reflection = new ReflectionClass(MatrixUtil::class);
@@ -30,7 +29,7 @@ class MatrixUtilTest extends TestCase
         }
     }
 
-    public function testToString() : void
+    public function testToString()
     {
         $matrix = new ByteMatrix(3, 3);
         $matrix->set(0, 0, 0);
@@ -47,7 +46,7 @@ class MatrixUtilTest extends TestCase
         $this->assertSame($expected, (string) $matrix);
     }
 
-    public function testClearMatrix() : void
+    public function testClearMatrix()
     {
         $matrix = new ByteMatrix(2, 2);
         MatrixUtil::clearMatrix($matrix);
@@ -58,7 +57,7 @@ class MatrixUtilTest extends TestCase
         $this->assertSame(-1, $matrix->get(1, 1));
     }
 
-    public function testEmbedBasicPatterns1() : void
+    public function testEmbedBasicPatterns1()
     {
         $matrix = new ByteMatrix(21, 21);
         MatrixUtil::clearMatrix($matrix);
@@ -92,7 +91,7 @@ class MatrixUtilTest extends TestCase
         $this->assertSame($expected, (string) $matrix);
     }
 
-    public function testEmbedBasicPatterns2() : void
+    public function testEmbedBasicPatterns2()
     {
         $matrix = new ByteMatrix(25, 25);
         MatrixUtil::clearMatrix($matrix);
@@ -130,7 +129,7 @@ class MatrixUtilTest extends TestCase
         $this->assertSame($expected, (string) $matrix);
     }
 
-    public function testEmbedTypeInfo() : void
+    public function testEmbedTypeInfo()
     {
         $matrix = new ByteMatrix(21, 21);
         MatrixUtil::clearMatrix($matrix);
@@ -165,7 +164,7 @@ class MatrixUtilTest extends TestCase
         $this->assertSame($expected, (string) $matrix);
     }
 
-    public function testEmbedVersionInfo() : void
+    public function testEmbedVersionInfo()
     {
         $matrix = new ByteMatrix(21, 21);
         MatrixUtil::clearMatrix($matrix);
@@ -199,7 +198,7 @@ class MatrixUtilTest extends TestCase
         $this->assertSame($expected, (string) $matrix);
     }
 
-    public function testEmbedDataBits() : void
+    public function testEmbedDataBits()
     {
         $matrix = new ByteMatrix(21, 21);
         MatrixUtil::clearMatrix($matrix);
@@ -242,7 +241,7 @@ class MatrixUtilTest extends TestCase
         $this->assertSame($expected, (string) $matrix);
     }
 
-    public function testBuildMatrix() : void
+    public function testBuildMatrix()
     {
         $bytes = [
             32, 65, 205, 69, 41, 220, 46, 128, 236, 42, 159, 74, 221, 244, 169,
@@ -288,7 +287,7 @@ class MatrixUtilTest extends TestCase
         $this->assertSame($expected, (string) $matrix);
     }
 
-    public function testFindMsbSet() : void
+    public function testFindMsbSet()
     {
         $this->assertSame(0, $this->methods['findMsbSet']->invoke(null, 0));
         $this->assertSame(1, $this->methods['findMsbSet']->invoke(null, 1));
@@ -296,7 +295,7 @@ class MatrixUtilTest extends TestCase
         $this->assertSame(32, $this->methods['findMsbSet']->invoke(null, 0x80000000));
     }
 
-    public function testCalculateBchCode() : void
+    public function testCalculateBchCode()
     {
         // Encoding of type information.
         // From Appendix C in JISX0510:2004 (p 65)
@@ -317,7 +316,7 @@ class MatrixUtilTest extends TestCase
         $this->assertSame(0xc69, $this->methods['calculateBchCode']->invoke(null, 40, 0x1f25));
     }
 
-    public function testMakeVersionInfoBits() : void
+    public function testMakeVersionInfoBits()
     {
         // From Appendix D in JISX0510:2004 (p 68)
         $bits = new BitArray();
@@ -325,7 +324,7 @@ class MatrixUtilTest extends TestCase
         $this->assertSame(' ...XXXXX ..X..X.X ..', (string) $bits);
     }
 
-    public function testMakeTypeInfoBits() : void
+    public function testMakeTypeInfoBits()
     {
         // From Appendix D in JISX0510:2004 (p 68)
         $bits = new BitArray();

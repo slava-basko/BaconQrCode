@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Renderer\Path;
 
@@ -15,18 +14,18 @@ final class Line implements OperationInterface
      */
     private $y;
 
-    public function __construct(float $x, float $y)
+    public function __construct($x, $y)
     {
         $this->x = $x;
         $this->y = $y;
     }
 
-    public function getX() : float
+    public function getX()
     {
         return $this->x;
     }
 
-    public function getY() : float
+    public function getY()
     {
         return $this->y;
     }
@@ -34,7 +33,7 @@ final class Line implements OperationInterface
     /**
      * @return self
      */
-    public function translate(float $x, float $y) : OperationInterface
+    public function translate($x, $y)
     {
         return new self($this->x + $x, $this->y + $y);
     }

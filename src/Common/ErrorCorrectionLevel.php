@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Common;
 
@@ -16,17 +15,17 @@ use DASPRiD\Enum\AbstractEnum;
  */
 final class ErrorCorrectionLevel extends AbstractEnum
 {
-    protected const L = [0x01];
-    protected const M = [0x00];
-    protected const Q = [0x03];
-    protected const H = [0x02];
+    protected static $L = [0x01];
+    protected static $M = [0x00];
+    protected static $Q = [0x03];
+    protected static $H = [0x02];
 
     /**
      * @var int
      */
     private $bits;
 
-    protected function __construct(int $bits)
+    protected function __construct($bits)
     {
         $this->bits = $bits;
     }
@@ -34,7 +33,7 @@ final class ErrorCorrectionLevel extends AbstractEnum
     /**
      * @throws OutOfBoundsException if number of bits is invalid
      */
-    public static function forBits(int $bits) : self
+    public static function forBits($bits)
     {
         switch ($bits) {
             case 0:
@@ -56,7 +55,7 @@ final class ErrorCorrectionLevel extends AbstractEnum
     /**
      * Returns the two bits used to encode this error correction level.
      */
-    public function getBits() : int
+    public function getBits()
     {
         return $this->bits;
     }

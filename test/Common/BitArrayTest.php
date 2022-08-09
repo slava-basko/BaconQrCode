@@ -1,20 +1,20 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCodeTest\Common;
 
 use BaconQrCode\Common\BitArray;
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Runner\Version as PHPUnitVersion;
+//use PHPUnit\Runner\Version as PHPUnitVersion;
+use PHPUnit_Runner_Version as PHPUnitVersion;
 
 final class BitArrayTest extends TestCase
 {
-    private function getPhpUnitMajorVersion(): int
+    private function getPhpUnitMajorVersion()
     {
         return (int) explode('.', PHPUnitVersion::id())[0];
     }
 
-    public function testGetSet() : void
+    public function testGetSet()
     {
         $array = new BitArray(33);
 
@@ -25,7 +25,7 @@ final class BitArrayTest extends TestCase
         }
     }
 
-    public function testGetNextSet1() : void
+    public function testGetNextSet1()
     {
         $array = new BitArray(32);
 
@@ -33,7 +33,7 @@ final class BitArrayTest extends TestCase
             if ($this->getPhpUnitMajorVersion() === 7) {
                 $this->assertEquals($i, 32, '', $array->getNextSet($i));
             } else {
-                $this->assertEqualsWithDelta($i, 32, $array->getNextSet($i));
+                $this->assertEquals($i, 32, '', $array->getNextSet($i));
             }
         }
 
@@ -43,12 +43,12 @@ final class BitArrayTest extends TestCase
             if ($this->getPhpUnitMajorVersion() === 7) {
                 $this->assertEquals($i, 33, '', $array->getNextSet($i));
             } else {
-                $this->assertEqualsWithDelta($i, 33, $array->getNextSet($i));
+                $this->assertEquals($i, 33, '', $array->getNextSet($i));
             }
         }
     }
 
-    public function testGetNextSet2() : void
+    public function testGetNextSet2()
     {
         $array = new BitArray(33);
 
@@ -56,7 +56,7 @@ final class BitArrayTest extends TestCase
             if ($this->getPhpUnitMajorVersion() === 7) {
                 $this->assertEquals($i, $i <= 31 ? 31 : 33, '', $array->getNextSet($i));
             } else {
-                $this->assertEqualsWithDelta($i, $i <= 31 ? 31 : 33, $array->getNextSet($i));
+                $this->assertEquals($i, $i <= 31 ? 31 : 33, '', $array->getNextSet($i));
             }
         }
 
@@ -66,12 +66,12 @@ final class BitArrayTest extends TestCase
             if ($this->getPhpUnitMajorVersion() === 7) {
                 $this->assertEquals($i, 32, '', $array->getNextSet($i));
             } else {
-                $this->assertEqualsWithDelta($i, 32, $array->getNextSet($i));
+                $this->assertEquals($i, 32, '', $array->getNextSet($i));
             }
         }
     }
 
-    public function testGetNextSet3() : void
+    public function testGetNextSet3()
     {
         $array = new BitArray(63);
         $array->set(31);
@@ -89,12 +89,12 @@ final class BitArrayTest extends TestCase
             if ($this->getPhpUnitMajorVersion() === 7) {
                 $this->assertEquals($i, $expected, '', $array->getNextSet($i));
             } else {
-                $this->assertEqualsWithDelta($i, $expected, $array->getNextSet($i));
+                $this->assertEquals($i, $expected, '', $array->getNextSet($i));
             }
         }
     }
 
-    public function testGetNextSet4() : void
+    public function testGetNextSet4()
     {
         $array = new BitArray(63);
         $array->set(33);
@@ -112,14 +112,14 @@ final class BitArrayTest extends TestCase
             if ($this->getPhpUnitMajorVersion() === 7) {
                 $this->assertEquals($i, $expected, '', $array->getNextSet($i));
             } else {
-                $this->assertEqualsWithDelta($i, $expected, $array->getNextSet($i));
+                $this->assertEquals($i, $expected, '', $array->getNextSet($i));
             }
         }
     }
 
-    public function testGetNextSet5() : void
+    public function testGetNextSet5()
     {
-        mt_srand(0xdeadbeef, MT_RAND_PHP);
+        mt_srand(0xdeadbeef);
 
         for ($i = 0; $i < 10; ++$i) {
             $array = new BitArray(mt_rand(1, 100));
@@ -150,7 +150,7 @@ final class BitArrayTest extends TestCase
         }
     }
 
-    public function testSetBulk() : void
+    public function testSetBulk()
     {
         $array = new BitArray(64);
         $array->setBulk(32, 0xFFFF0000);
@@ -164,7 +164,7 @@ final class BitArrayTest extends TestCase
         }
     }
 
-    public function testClear() : void
+    public function testClear()
     {
         $array = new BitArray(32);
 
@@ -179,7 +179,7 @@ final class BitArrayTest extends TestCase
         }
     }
 
-    public function testGetArray() : void
+    public function testGetArray()
     {
         $array = new BitArray(64);
         $array->set(0);
@@ -191,7 +191,7 @@ final class BitArrayTest extends TestCase
         $this->assertSame(0x80000000, $ints[1]);
     }
 
-    public function testIsRange() : void
+    public function testIsRange()
     {
         $array = new BitArray(64);
         $this->assertTrue($array->isRange(0, 64, false));

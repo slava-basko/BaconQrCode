@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCodeTest\Common;
 
@@ -8,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ModeTest extends TestCase
 {
-    public function testBitsMatchConstants() : void
+    public function testBitsMatchConstants()
     {
         $this->assertSame(0x0, Mode::TERMINATOR()->getBits());
         $this->assertSame(0x1, Mode::NUMERIC()->getBits());

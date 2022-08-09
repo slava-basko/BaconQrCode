@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Renderer\Module;
 
@@ -21,12 +20,12 @@ final class SquareModule implements ModuleInterface
     {
     }
 
-    public static function instance() : self
+    public static function instance()
     {
         return self::$instance ?: self::$instance = new self();
     }
 
-    public function createPath(ByteMatrix $matrix) : Path
+    public function createPath(ByteMatrix $matrix)
     {
         $path = new Path();
 

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Renderer\Eye;
 
@@ -15,12 +14,12 @@ interface EyeInterface
      *
      * The path origin point (0, 0) must be anchored at the middle of the path.
      */
-    public function getExternalPath() : Path;
+    public function getExternalPath();
 
     /**
      * Returns the path of the internal eye element.
      *
      * The path origin point (0, 0) must be anchored at the middle of the path.
      */
-    public function getInternalPath() : Path;
+    public function getInternalPath();
 }

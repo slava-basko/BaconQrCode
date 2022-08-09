@@ -1,12 +1,5 @@
 # QR Code generator
 
-[![PHP CI](https://github.com/Bacon/BaconQrCode/actions/workflows/ci.yml/badge.svg)](https://github.com/Bacon/BaconQrCode/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/Bacon/BaconQrCode/branch/master/graph/badge.svg?token=rD0HcAiEEx)](https://codecov.io/gh/Bacon/BaconQrCode)
-[![Latest Stable Version](https://poser.pugx.org/bacon/bacon-qr-code/v/stable)](https://packagist.org/packages/bacon/bacon-qr-code)
-[![Total Downloads](https://poser.pugx.org/bacon/bacon-qr-code/downloads)](https://packagist.org/packages/bacon/bacon-qr-code)
-[![License](https://poser.pugx.org/bacon/bacon-qr-code/license)](https://packagist.org/packages/bacon/bacon-qr-code)
-
-
 ## Introduction
 BaconQrCode is a port of QR code portion of the ZXing library. It currently
 only features the encoder part, but could later receive the decoder part as
@@ -37,3 +30,14 @@ BaconQrCode comes with multiple back ends for rendering images. Currently includ
 - `ImagickImageBackEnd`: renders raster images using the Imagick library
 - `SvgImageBackEnd`: renders SVG files using XMLWriter
 - `EpsImageBackEnd`: renders EPS files
+
+### How to run tests
+Install dependencies
+```shell
+docker run -v `pwd`:/var/www --rm feitosa/php55-with-composer composer install
+```
+
+Run tests
+```shell
+docker run -v `pwd`:/var/www --rm feitosa/php55-with-composer vendor/bin/phpunit
+```

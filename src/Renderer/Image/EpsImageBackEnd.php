@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Renderer\Image;
 
@@ -20,14 +19,14 @@ use BaconQrCode\Renderer\RendererStyle\GradientType;
 
 final class EpsImageBackEnd implements ImageBackEndInterface
 {
-    private const PRECISION = 3;
+    const PRECISION = 3;
 
     /**
      * @var string|null
      */
     private $eps;
 
-    public function new(int $size, ColorInterface $backgroundColor) : void
+    public function create($size, ColorInterface $backgroundColor)
     {
         $this->eps = "%!PS-Adobe-3.0 EPSF-3.0\n"
             . "%%Creator: BaconQrCode\n"
@@ -69,7 +68,7 @@ final class EpsImageBackEnd implements ImageBackEndInterface
         );
     }
 
-    public function scale(float $size) : void
+    public function scale($size)
     {
         if (null === $this->eps) {
             throw new RuntimeException('No image has been started');
@@ -78,7 +77,7 @@ final class EpsImageBackEnd implements ImageBackEndInterface
         $this->eps .= sprintf("%1\$s %1\$s s\n", round($size, self::PRECISION));
     }
 
-    public function translate(float $x, float $y) : void
+    public function translate($x, $y)
     {
         if (null === $this->eps) {
             throw new RuntimeException('No image has been started');
@@ -87,7 +86,7 @@ final class EpsImageBackEnd implements ImageBackEndInterface
         $this->eps .= sprintf("%s %s t\n", round($x, self::PRECISION), round($y, self::PRECISION));
     }
 
-    public function rotate(int $degrees) : void
+    public function rotate($degrees)
     {
         if (null === $this->eps) {
             throw new RuntimeException('No image has been started');
@@ -96,7 +95,7 @@ final class EpsImageBackEnd implements ImageBackEndInterface
         $this->eps .= sprintf("%d r\n", $degrees);
     }
 
-    public function push() : void
+    public function push()
     {
         if (null === $this->eps) {
             throw new RuntimeException('No image has been started');
@@ -105,7 +104,7 @@ final class EpsImageBackEnd implements ImageBackEndInterface
         $this->eps .= "q\n";
     }
 
-    public function pop() : void
+    public function pop()
     {
         if (null === $this->eps) {
             throw new RuntimeException('No image has been started');
@@ -114,7 +113,7 @@ final class EpsImageBackEnd implements ImageBackEndInterface
         $this->eps .= "Q\n";
     }
 
-    public function drawPathWithColor(Path $path, ColorInterface $color) : void
+    public function drawPathWithColor(Path $path, ColorInterface $color)
     {
         if (null === $this->eps) {
             throw new RuntimeException('No image has been started');
@@ -134,11 +133,11 @@ final class EpsImageBackEnd implements ImageBackEndInterface
     public function drawPathWithGradient(
         Path $path,
         Gradient $gradient,
-        float $x,
-        float $y,
-        float $width,
-        float $height
-    ) : void {
+        $x,
+        $y,
+        $width,
+        $height
+    ) {
         if (null === $this->eps) {
             throw new RuntimeException('No image has been started');
         }
@@ -154,7 +153,7 @@ final class EpsImageBackEnd implements ImageBackEndInterface
         $this->createGradientFill($gradient, $x, $y, $width, $height);
     }
 
-    public function done() : string
+    public function done()
     {
         if (null === $this->eps) {
             throw new RuntimeException('No image has been started');
@@ -167,7 +166,7 @@ final class EpsImageBackEnd implements ImageBackEndInterface
         return $blob;
     }
 
-    private function drawPathOperations(Iterable $ops, &$fromX, &$fromY) : string
+    private function drawPathOperations($ops, &$fromX, &$fromY)
     {
         $pathData = [];
 
@@ -211,7 +210,7 @@ final class EpsImageBackEnd implements ImageBackEndInterface
         return implode(' ', $pathData);
     }
 
-    private function createGradientFill(Gradient $gradient, float $x, float $y, float $width, float $height) : void
+    private function createGradientFill(Gradient $gradient, $x, $y, $width, $height)
     {
         $startColor = $gradient->getStartColor();
         $endColor = $gradient->getEndColor();
@@ -334,7 +333,7 @@ final class EpsImageBackEnd implements ImageBackEndInterface
             . " >>\n>>\nshfill\nQ\n";
     }
 
-    private function getColorSetString(ColorInterface $color) : string
+    private function getColorSetString(ColorInterface $color)
     {
         if ($color instanceof Rgb) {
             return $this->getColorString($color) . ' rgb';
@@ -351,7 +350,7 @@ final class EpsImageBackEnd implements ImageBackEndInterface
         return $this->getColorSetString($color->toCmyk());
     }
 
-    private function getColorString(ColorInterface $color) : string
+    private function getColorString(ColorInterface $color)
     {
         if ($color instanceof Rgb) {
             return sprintf('%s %s %s', $color->getRed() / 255, $color->getGreen() / 255, $color->getBlue() / 255);

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Encoder;
 
@@ -32,7 +31,7 @@ final class ByteMatrix
      */
     private $height;
 
-    public function __construct(int $width, int $height)
+    public function __construct($width, $height)
     {
         $this->height = $height;
         $this->width = $width;
@@ -46,7 +45,7 @@ final class ByteMatrix
     /**
      * Gets the width of the matrix.
      */
-    public function getWidth() : int
+    public function getWidth()
     {
         return $this->width;
     }
@@ -54,7 +53,7 @@ final class ByteMatrix
     /**
      * Gets the height of the matrix.
      */
-    public function getHeight() : int
+    public function getHeight()
     {
         return $this->height;
     }
@@ -64,7 +63,7 @@ final class ByteMatrix
      *
      * @return SplFixedArray<SplFixedArray<int>>
      */
-    public function getArray() : SplFixedArray
+    public function getArray()
     {
         return $this->bytes;
     }
@@ -72,7 +71,7 @@ final class ByteMatrix
     /**
      * @return Traversable<int>
      */
-    public function getBytes() : Traversable
+    public function getBytes()
     {
         foreach ($this->bytes as $row) {
             foreach ($row as $byte) {
@@ -84,7 +83,7 @@ final class ByteMatrix
     /**
      * Gets the byte for a specific position.
      */
-    public function get(int $x, int $y) : int
+    public function get($x, $y)
     {
         return $this->bytes[$y][$x];
     }
@@ -92,7 +91,7 @@ final class ByteMatrix
     /**
      * Sets the byte for a specific position.
      */
-    public function set(int $x, int $y, int $value) : void
+    public function set($x, $y, $value)
     {
         $this->bytes[$y][$x] = $value;
     }
@@ -100,7 +99,7 @@ final class ByteMatrix
     /**
      * Clears the matrix with a specific value.
      */
-    public function clear(int $value) : void
+    public function clear($value)
     {
         for ($y = 0; $y < $this->height; ++$y) {
             for ($x = 0; $x < $this->width; ++$x) {
@@ -121,7 +120,7 @@ final class ByteMatrix
     /**
      * Returns a string representation of the matrix.
      */
-    public function __toString() : string
+    public function __toString()
     {
         $result = '';
 

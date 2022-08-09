@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCodeTest\Encoder;
 
@@ -9,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class MaskUtilTest extends TestCase
 {
-    public function dataMaskBits() : array
+    public function dataMaskBits()
     {
         return [
             [0, [
@@ -82,7 +81,7 @@ class MaskUtilTest extends TestCase
     /**
      * @dataProvider dataMaskBits
      */
-    public function testGetDatMaskBit(int $maskPattern, array $expected) : void
+    public function testGetDatMaskBit($maskPattern, array $expected)
     {
         for ($x = 0; $x < 6; ++$x) {
             for ($y = 0; $y < 6; ++$y) {
@@ -94,7 +93,7 @@ class MaskUtilTest extends TestCase
         }
     }
 
-    public function testApplyMaskPenaltyRule1() : void
+    public function testApplyMaskPenaltyRule1()
     {
         $matrix = new ByteMatrix(4, 1);
         $matrix->set(0, 0, 0);
@@ -129,7 +128,7 @@ class MaskUtilTest extends TestCase
         $this->assertSame(4, MaskUtil::applyMaskPenaltyRule1($matrix));
     }
 
-    public function testApplyMaskPenaltyRule2() : void
+    public function testApplyMaskPenaltyRule2()
     {
         $matrix = new ByteMatrix(1, 1);
         $matrix->set(0, 0, 0);
@@ -162,7 +161,7 @@ class MaskUtilTest extends TestCase
         $this->assertSame(3 * 4, MaskUtil::applyMaskPenaltyRule2($matrix));
     }
 
-    public function testApplyMaskPenalty3() : void
+    public function testApplyMaskPenalty3()
     {
         // Horizontal 00001011101
         $matrix = new ByteMatrix(11, 1);
@@ -225,7 +224,7 @@ class MaskUtilTest extends TestCase
         $this->assertSame(40, MaskUtil::applyMaskPenaltyRule3($matrix));
     }
 
-    public function testApplyMaskPenaltyRule4() : void
+    public function testApplyMaskPenaltyRule4()
     {
         // Dark cell ratio = 0%
         $matrix = new ByteMatrix(1, 1);

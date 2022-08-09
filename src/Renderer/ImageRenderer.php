@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Renderer;
 
@@ -32,7 +31,7 @@ final class ImageRenderer implements RendererInterface
     /**
      * @throws InvalidArgumentException if matrix width doesn't match height
      */
-    public function render(QrCode $qrCode) : string
+    public function render(QrCode $qrCode)
     {
         $size = $this->rendererStyle->getSize();
         $margin = $this->rendererStyle->getMargin();
@@ -47,7 +46,7 @@ final class ImageRenderer implements RendererInterface
         $moduleSize = $size / $totalSize;
         $fill = $this->rendererStyle->getFill();
 
-        $this->imageBackEnd->new($size, $fill->getBackgroundColor());
+        $this->imageBackEnd->create($size, $fill->getBackgroundColor());
         $this->imageBackEnd->scale((float) $moduleSize);
         $this->imageBackEnd->translate((float) $margin, (float) $margin);
 
@@ -72,7 +71,7 @@ final class ImageRenderer implements RendererInterface
         return $this->imageBackEnd->done();
     }
 
-    private function drawEyes(int $matrixSize, Path $modulePath) : Path
+    private function drawEyes($matrixSize, Path $modulePath)
     {
         $fill = $this->rendererStyle->getFill();
 
@@ -115,11 +114,11 @@ final class ImageRenderer implements RendererInterface
         Path $externalPath,
         Path $internalPath,
         EyeFill $fill,
-        float $xTranslation,
-        float $yTranslation,
-        int $rotation,
+        $xTranslation,
+        $yTranslation,
+        $rotation,
         Path $modulePath
-    ) : Path {
+    ) {
         if ($fill->inheritsBothColors()) {
             return $modulePath
                 ->append($externalPath->translate($xTranslation, $yTranslation))

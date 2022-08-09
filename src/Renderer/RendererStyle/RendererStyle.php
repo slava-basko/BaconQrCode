@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Renderer\RendererStyle;
 
@@ -36,54 +35,54 @@ final class RendererStyle
     private $fill;
 
     public function __construct(
-        int $size,
-        int $margin = 4,
-        ?ModuleInterface $module = null,
-        ?EyeInterface $eye = null,
-        ?Fill $fill = null
+        $size,
+        $margin = 4,
+        $module = null,
+        $eye = null,
+        $fill = null
     ) {
         $this->margin = $margin;
         $this->size = $size;
         $this->module = $module ?: SquareModule::instance();
         $this->eye = $eye ?: new ModuleEye($this->module);
-        $this->fill = $fill ?: Fill::default();
+        $this->fill = $fill ?: Fill::_default();
     }
 
-    public function withSize(int $size) : self
+    public function withSize($size)
     {
         $style = clone $this;
         $style->size = $size;
         return $style;
     }
 
-    public function withMargin(int $margin) : self
+    public function withMargin($margin)
     {
         $style = clone $this;
         $style->margin = $margin;
         return $style;
     }
 
-    public function getSize() : int
+    public function getSize()
     {
         return $this->size;
     }
 
-    public function getMargin() : int
+    public function getMargin()
     {
         return $this->margin;
     }
 
-    public function getModule() : ModuleInterface
+    public function getModule()
     {
         return $this->module;
     }
 
-    public function getEye() : EyeInterface
+    public function getEye()
     {
         return $this->eye;
     }
 
-    public function getFill() : Fill
+    public function getFill()
     {
         return $this->fill;
     }

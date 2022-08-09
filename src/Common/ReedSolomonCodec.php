@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Common;
 
@@ -92,12 +91,12 @@ final class ReedSolomonCodec
      * @throws RuntimeException if field generator polynomial is not primitive
      */
     public function __construct(
-        int $symbolSize,
-        int $gfPoly,
-        int $firstRoot,
-        int $primitive,
-        int $numRoots,
-        int $padding
+        $symbolSize,
+        $gfPoly,
+        $firstRoot,
+        $primitive,
+        $numRoots,
+        $padding
     ) {
         if ($symbolSize < 0 || $symbolSize > 8) {
             throw new InvalidArgumentException('Symbol size must be between 0 and 8');
@@ -185,7 +184,7 @@ final class ReedSolomonCodec
     /**
      * Encodes data and writes result back into parity array.
      */
-    public function encode(SplFixedArray $data, SplFixedArray $parity) : void
+    public function encode(SplFixedArray $data, SplFixedArray $parity)
     {
         for ($i = 0; $i < $this->numRoots; ++$i) {
             $parity[$i] = 0;
@@ -222,7 +221,7 @@ final class ReedSolomonCodec
     /**
      * Decodes received data.
      */
-    public function decode(SplFixedArray $data, SplFixedArray $erasures = null) : ?int
+    public function decode(SplFixedArray $data, SplFixedArray $erasures = null)
     {
         // This speeds up the initialization a bit.
         $numRootsPlusOne = SplFixedArray::fromArray(array_fill(0, $this->numRoots + 1, 0), false);
@@ -456,7 +455,7 @@ final class ReedSolomonCodec
     /**
      * Computes $x % GF_SIZE, where GF_SIZE is 2**GF_BITS - 1, without a slow divide.
      */
-    private function modNn(int $x) : int
+    private function modNn($x)
     {
         while ($x >= $this->blockSize) {
             $x -= $this->blockSize;

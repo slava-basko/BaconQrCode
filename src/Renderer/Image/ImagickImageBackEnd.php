@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Renderer\Image;
 
@@ -58,7 +57,7 @@ final class ImagickImageBackEnd implements ImageBackEndInterface
      */
     private $matrixIndex;
 
-    public function __construct(string $imageFormat = 'png', int $compressionQuality = 100)
+    public function __construct($imageFormat = 'png', $compressionQuality = 100)
     {
         if (! class_exists(Imagick::class)) {
             throw new RuntimeException('You need to install the imagick extension to use this back end');
@@ -68,7 +67,7 @@ final class ImagickImageBackEnd implements ImageBackEndInterface
         $this->compressionQuality = $compressionQuality;
     }
 
-    public function new(int $size, ColorInterface $backgroundColor) : void
+    public function create($size, ColorInterface $backgroundColor)
     {
         $this->image = new Imagick();
         $this->image->newImage($size, $size, $this->getColorPixel($backgroundColor));
@@ -80,7 +79,7 @@ final class ImagickImageBackEnd implements ImageBackEndInterface
         $this->matrixIndex = 0;
     }
 
-    public function scale(float $size) : void
+    public function scale($size)
     {
         if (null === $this->draw) {
             throw new RuntimeException('No image has been started');
@@ -91,7 +90,7 @@ final class ImagickImageBackEnd implements ImageBackEndInterface
             ->multiply(TransformationMatrix::scale($size));
     }
 
-    public function translate(float $x, float $y) : void
+    public function translate($x, $y)
     {
         if (null === $this->draw) {
             throw new RuntimeException('No image has been started');
@@ -102,7 +101,7 @@ final class ImagickImageBackEnd implements ImageBackEndInterface
             ->multiply(TransformationMatrix::translate($x, $y));
     }
 
-    public function rotate(int $degrees) : void
+    public function rotate($degrees)
     {
         if (null === $this->draw) {
             throw new RuntimeException('No image has been started');
@@ -113,7 +112,7 @@ final class ImagickImageBackEnd implements ImageBackEndInterface
             ->multiply(TransformationMatrix::rotate($degrees));
     }
 
-    public function push() : void
+    public function push()
     {
         if (null === $this->draw) {
             throw new RuntimeException('No image has been started');
@@ -123,7 +122,7 @@ final class ImagickImageBackEnd implements ImageBackEndInterface
         $this->matrices[++$this->matrixIndex] = $this->matrices[$this->matrixIndex - 1];
     }
 
-    public function pop() : void
+    public function pop()
     {
         if (null === $this->draw) {
             throw new RuntimeException('No image has been started');
@@ -133,7 +132,7 @@ final class ImagickImageBackEnd implements ImageBackEndInterface
         unset($this->matrices[$this->matrixIndex--]);
     }
 
-    public function drawPathWithColor(Path $path, ColorInterface $color) : void
+    public function drawPathWithColor(Path $path, ColorInterface $color)
     {
         if (null === $this->draw) {
             throw new RuntimeException('No image has been started');
@@ -146,11 +145,11 @@ final class ImagickImageBackEnd implements ImageBackEndInterface
     public function drawPathWithGradient(
         Path $path,
         Gradient $gradient,
-        float $x,
-        float $y,
-        float $width,
-        float $height
-    ) : void {
+        $x,
+        $y,
+        $width,
+        $height
+    ) {
         if (null === $this->draw) {
             throw new RuntimeException('No image has been started');
         }
@@ -159,7 +158,7 @@ final class ImagickImageBackEnd implements ImageBackEndInterface
         $this->drawPath($path);
     }
 
-    public function done() : string
+    public function done()
     {
         if (null === $this->draw) {
             throw new RuntimeException('No image has been started');
@@ -176,7 +175,7 @@ final class ImagickImageBackEnd implements ImageBackEndInterface
         return $blob;
     }
 
-    private function drawPath(Path $path) : void
+    private function drawPath(Path $path)
     {
         $this->draw->pathStart();
 
@@ -225,7 +224,7 @@ final class ImagickImageBackEnd implements ImageBackEndInterface
         $this->draw->pathFinish();
     }
 
-    private function createGradientFill(Gradient $gradient, float $x, float $y, float $width, float $height) : string
+    private function createGradientFill(Gradient $gradient, $x, $y, $width, $height)
     {
         list($width, $height) = $this->matrices[$this->matrixIndex]->apply($width, $height);
 
@@ -293,7 +292,7 @@ final class ImagickImageBackEnd implements ImageBackEndInterface
         return $id;
     }
 
-    private function getColorPixel(ColorInterface $color) : ImagickPixel
+    private function getColorPixel(ColorInterface $color)
     {
         $alpha = 100;
 

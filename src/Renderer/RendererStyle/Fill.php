@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Renderer\RendererStyle;
 
@@ -46,8 +45,8 @@ final class Fill
 
     private function __construct(
         ColorInterface $backgroundColor,
-        ?ColorInterface $foregroundColor,
-        ?Gradient $foregroundGradient,
+        $foregroundColor,
+        $foregroundGradient,
         EyeFill $topLeftEyeFill,
         EyeFill $topRightEyeFill,
         EyeFill $bottomLeftEyeFill
@@ -60,7 +59,7 @@ final class Fill
         $this->bottomLeftEyeFill = $bottomLeftEyeFill;
     }
 
-    public static function default() : self
+    public static function _default()
     {
         return self::$default ?: self::$default = self::uniformColor(new Gray(100), new Gray(0));
     }
@@ -71,7 +70,7 @@ final class Fill
         EyeFill $topLeftEyeFill,
         EyeFill $topRightEyeFill,
         EyeFill $bottomLeftEyeFill
-    ) : self {
+    ) {
         return new self(
             $backgroundColor,
             $foregroundColor,
@@ -88,7 +87,7 @@ final class Fill
         EyeFill $topLeftEyeFill,
         EyeFill $topRightEyeFill,
         EyeFill $bottomLeftEyeFill
-    ) : self {
+    ) {
         return new self(
             $backgroundColor,
             null,
@@ -99,7 +98,7 @@ final class Fill
         );
     }
 
-    public static function uniformColor(ColorInterface $backgroundColor, ColorInterface $foregroundColor) : self
+    public static function uniformColor(ColorInterface $backgroundColor, ColorInterface $foregroundColor)
     {
         return new self(
             $backgroundColor,
@@ -111,7 +110,7 @@ final class Fill
         );
     }
 
-    public static function uniformGradient(ColorInterface $backgroundColor, Gradient $foregroundGradient) : self
+    public static function uniformGradient(ColorInterface $backgroundColor, Gradient $foregroundGradient)
     {
         return new self(
             $backgroundColor,
@@ -123,17 +122,17 @@ final class Fill
         );
     }
 
-    public function hasGradientFill() : bool
+    public function hasGradientFill()
     {
         return null !== $this->foregroundGradient;
     }
 
-    public function getBackgroundColor() : ColorInterface
+    public function getBackgroundColor()
     {
         return $this->backgroundColor;
     }
 
-    public function getForegroundColor() : ColorInterface
+    public function getForegroundColor()
     {
         if (null === $this->foregroundColor) {
             throw new RuntimeException('Fill uses a gradient, thus no foreground color is available');
@@ -142,7 +141,7 @@ final class Fill
         return $this->foregroundColor;
     }
 
-    public function getForegroundGradient() : Gradient
+    public function getForegroundGradient()
     {
         if (null === $this->foregroundGradient) {
             throw new RuntimeException('Fill uses a single color, thus no foreground gradient is available');
@@ -151,17 +150,17 @@ final class Fill
         return $this->foregroundGradient;
     }
 
-    public function getTopLeftEyeFill() : EyeFill
+    public function getTopLeftEyeFill()
     {
         return $this->topLeftEyeFill;
     }
 
-    public function getTopRightEyeFill() : EyeFill
+    public function getTopRightEyeFill()
     {
         return $this->topRightEyeFill;
     }
 
-    public function getBottomLeftEyeFill() : EyeFill
+    public function getBottomLeftEyeFill()
     {
         return $this->bottomLeftEyeFill;
     }

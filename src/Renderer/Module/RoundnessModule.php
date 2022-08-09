@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Renderer\Module;
 
@@ -13,16 +12,16 @@ use BaconQrCode\Renderer\Path\Path;
  */
 final class RoundnessModule implements ModuleInterface
 {
-    public const STRONG = 1;
-    public const MEDIUM = .5;
-    public const SOFT = .25;
+    const STRONG = 1;
+    const MEDIUM = .5;
+    const SOFT = .25;
 
     /**
      * @var float
      */
     private $intensity;
 
-    public function __construct(float $intensity)
+    public function __construct($intensity)
     {
         if ($intensity <= 0 || $intensity > 1) {
             throw new InvalidArgumentException('Intensity must between 0 (exclusive) and 1 (inclusive)');
@@ -31,7 +30,7 @@ final class RoundnessModule implements ModuleInterface
         $this->intensity = $intensity / 2;
     }
 
-    public function createPath(ByteMatrix $matrix) : Path
+    public function createPath(ByteMatrix $matrix)
     {
         $path = new Path();
 

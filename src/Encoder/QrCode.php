@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Encoder;
 
@@ -15,7 +14,7 @@ final class QrCode
     /**
      * Number of possible mask patterns.
      */
-    public const NUM_MASK_PATTERNS = 8;
+    const NUM_MASK_PATTERNS = 8;
 
     /**
      * Mode of the QR code.
@@ -56,7 +55,7 @@ final class QrCode
         Mode $mode,
         ErrorCorrectionLevel $errorCorrectionLevel,
         Version $version,
-        int $maskPattern,
+        $maskPattern,
         ByteMatrix $matrix
     ) {
         $this->mode = $mode;
@@ -69,7 +68,7 @@ final class QrCode
     /**
      * Gets the mode.
      */
-    public function getMode() : Mode
+    public function getMode()
     {
         return $this->mode;
     }
@@ -77,7 +76,7 @@ final class QrCode
     /**
      * Gets the EC level.
      */
-    public function getErrorCorrectionLevel() : ErrorCorrectionLevel
+    public function getErrorCorrectionLevel()
     {
         return $this->errorCorrectionLevel;
     }
@@ -85,7 +84,7 @@ final class QrCode
     /**
      * Gets the version.
      */
-    public function getVersion() : Version
+    public function getVersion()
     {
         return $this->version;
     }
@@ -93,7 +92,7 @@ final class QrCode
     /**
      * Gets the mask pattern.
      */
-    public function getMaskPattern() : int
+    public function getMaskPattern()
     {
         return $this->maskPattern;
     }
@@ -111,7 +110,7 @@ final class QrCode
     /**
      * Validates whether a mask pattern is valid.
      */
-    public static function isValidMaskPattern(int $maskPattern) : bool
+    public static function isValidMaskPattern($maskPattern)
     {
         return $maskPattern > 0 && $maskPattern < self::NUM_MASK_PATTERNS;
     }
@@ -119,7 +118,7 @@ final class QrCode
     /**
      * Returns a string representation of the QR code.
      */
-    public function __toString() : string
+    public function __toString()
     {
         $result = "<<\n"
                 . ' mode: ' . $this->mode . "\n"

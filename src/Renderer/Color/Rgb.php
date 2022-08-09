@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Renderer\Color;
 
@@ -27,7 +26,7 @@ final class Rgb implements ColorInterface
      * @param int $green the green amount of the color, 0 to 255
      * @param int $blue the blue amount of the color, 0 to 255
      */
-    public function __construct(int $red, int $green, int $blue)
+    public function __construct($red, $green, $blue)
     {
         if ($red < 0 || $red > 255) {
             throw new Exception\InvalidArgumentException('Red must be between 0 and 255');
@@ -46,27 +45,27 @@ final class Rgb implements ColorInterface
         $this->blue = $blue;
     }
 
-    public function getRed() : int
+    public function getRed()
     {
         return $this->red;
     }
 
-    public function getGreen() : int
+    public function getGreen()
     {
         return $this->green;
     }
 
-    public function getBlue() : int
+    public function getBlue()
     {
         return $this->blue;
     }
 
-    public function toRgb() : Rgb
+    public function toRgb()
     {
         return $this;
     }
 
-    public function toCmyk() : Cmyk
+    public function toCmyk()
     {
         $c = 1 - ($this->red / 255);
         $m = 1 - ($this->green / 255);
@@ -81,7 +80,7 @@ final class Rgb implements ColorInterface
         );
     }
 
-    public function toGray() : Gray
+    public function toGray()
     {
         return new Gray((int) (($this->red * 0.21 + $this->green * 0.71 + $this->blue * 0.07) / 2.55));
     }

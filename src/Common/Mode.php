@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Common;
 
@@ -21,16 +20,16 @@ use DASPRiD\Enum\AbstractEnum;
  */
 final class Mode extends AbstractEnum
 {
-    protected const TERMINATOR = [[0, 0, 0], 0x00];
-    protected const NUMERIC = [[10, 12, 14], 0x01];
-    protected const ALPHANUMERIC = [[9, 11, 13], 0x02];
-    protected const STRUCTURED_APPEND = [[0, 0, 0], 0x03];
-    protected const BYTE = [[8, 16, 16], 0x04];
-    protected const ECI = [[0, 0, 0], 0x07];
-    protected const KANJI = [[8, 10, 12], 0x08];
-    protected const FNC1_FIRST_POSITION = [[0, 0, 0], 0x05];
-    protected const FNC1_SECOND_POSITION = [[0, 0, 0], 0x09];
-    protected const HANZI = [[8, 10, 12], 0x0d];
+    protected static $TERMINATOR = [[0, 0, 0], 0x00];
+    protected static $NUMERIC = [[10, 12, 14], 0x01];
+    protected static $ALPHANUMERIC = [[9, 11, 13], 0x02];
+    protected static $STRUCTURED_APPEND = [[0, 0, 0], 0x03];
+    protected static $BYTE = [[8, 16, 16], 0x04];
+    protected static $ECI = [[0, 0, 0], 0x07];
+    protected static $KANJI = [[8, 10, 12], 0x08];
+    protected static $FNC1_FIRST_POSITION = [[0, 0, 0], 0x05];
+    protected static $FNC1_SECOND_POSITION = [[0, 0, 0], 0x09];
+    protected static $HANZI = [[8, 10, 12], 0x0d];
 
     /**
      * @var int[]
@@ -42,7 +41,7 @@ final class Mode extends AbstractEnum
      */
     private $bits;
 
-    protected function __construct(array $characterCountBitsForVersions, int $bits)
+    protected function __construct(array $characterCountBitsForVersions, $bits)
     {
         $this->characterCountBitsForVersions = $characterCountBitsForVersions;
         $this->bits = $bits;
@@ -51,7 +50,7 @@ final class Mode extends AbstractEnum
     /**
      * Returns the number of bits used in a specific QR code version.
      */
-    public function getCharacterCountBits(Version $version) : int
+    public function getCharacterCountBits(Version $version)
     {
         $number = $version->getVersionNumber();
 
@@ -69,7 +68,7 @@ final class Mode extends AbstractEnum
     /**
      * Returns the four bits used to encode this mode.
      */
-    public function getBits() : int
+    public function getBits()
     {
         return $this->bits;
     }

@@ -17,14 +17,14 @@ class FormatInformation
     /**
      * Mask for format information.
      */
-    private const FORMAT_INFO_MASK_QR = 0x5412;
+    const FORMAT_INFO_MASK_QR = 0x5412;
 
     /**
      * Lookup table for decoding format information.
      *
      * See ISO 18004:2006, Annex C, Table C.1
      */
-    private const FORMAT_INFO_DECODE_LOOKUP = [
+    private static $FORMAT_INFO_DECODE_LOOKUP = [
         [0x5412, 0x00],
         [0x5125, 0x01],
         [0x5e7c, 0x02],
@@ -64,7 +64,7 @@ class FormatInformation
      *
      * @var array
      */
-    private const BITS_SET_IN_HALF_BYTE = [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4];
+    private static $BITS_SET_IN_HALF_BYTE = [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4];
 
     /**
      * Error correction level.
@@ -80,7 +80,7 @@ class FormatInformation
      */
     private $dataMask;
 
-    protected function __construct(int $formatInfo)
+    protected function __construct($formatInfo)
     {
         $this->ecLevel = ErrorCorrectionLevel::forBits(($formatInfo >> 3) & 0x3);
         $this->dataMask = $formatInfo & 0x7;
@@ -89,26 +89,26 @@ class FormatInformation
     /**
      * Checks how many bits are different between two integers.
      */
-    public static function numBitsDiffering(int $a, int $b) : int
+    public static function numBitsDiffering($a, $b)
     {
         $a ^= $b;
 
         return (
-            self::BITS_SET_IN_HALF_BYTE[$a & 0xf]
-            + self::BITS_SET_IN_HALF_BYTE[(BitUtils::unsignedRightShift($a, 4) & 0xf)]
-            + self::BITS_SET_IN_HALF_BYTE[(BitUtils::unsignedRightShift($a, 8) & 0xf)]
-            + self::BITS_SET_IN_HALF_BYTE[(BitUtils::unsignedRightShift($a, 12) & 0xf)]
-            + self::BITS_SET_IN_HALF_BYTE[(BitUtils::unsignedRightShift($a, 16) & 0xf)]
-            + self::BITS_SET_IN_HALF_BYTE[(BitUtils::unsignedRightShift($a, 20) & 0xf)]
-            + self::BITS_SET_IN_HALF_BYTE[(BitUtils::unsignedRightShift($a, 24) & 0xf)]
-            + self::BITS_SET_IN_HALF_BYTE[(BitUtils::unsignedRightShift($a, 28) & 0xf)]
+            self::$BITS_SET_IN_HALF_BYTE[$a & 0xf]
+            + self::$BITS_SET_IN_HALF_BYTE[(BitUtils::unsignedRightShift($a, 4) & 0xf)]
+            + self::$BITS_SET_IN_HALF_BYTE[(BitUtils::unsignedRightShift($a, 8) & 0xf)]
+            + self::$BITS_SET_IN_HALF_BYTE[(BitUtils::unsignedRightShift($a, 12) & 0xf)]
+            + self::$BITS_SET_IN_HALF_BYTE[(BitUtils::unsignedRightShift($a, 16) & 0xf)]
+            + self::$BITS_SET_IN_HALF_BYTE[(BitUtils::unsignedRightShift($a, 20) & 0xf)]
+            + self::$BITS_SET_IN_HALF_BYTE[(BitUtils::unsignedRightShift($a, 24) & 0xf)]
+            + self::$BITS_SET_IN_HALF_BYTE[(BitUtils::unsignedRightShift($a, 28) & 0xf)]
         );
     }
 
     /**
      * Decodes format information.
      */
-    public static function decodeFormatInformation(int $maskedFormatInfo1, int $maskedFormatInfo2) : ?self
+    public static function decodeFormatInformation($maskedFormatInfo1, $maskedFormatInfo2)
     {
         $formatInfo = self::doDecodeFormatInformation($maskedFormatInfo1, $maskedFormatInfo2);
 
@@ -127,12 +127,12 @@ class FormatInformation
     /**
      * Internal method for decoding format information.
      */
-    private static function doDecodeFormatInformation(int $maskedFormatInfo1, int $maskedFormatInfo2) : ?self
+    private static function doDecodeFormatInformation($maskedFormatInfo1, $maskedFormatInfo2)
     {
         $bestDifference = PHP_INT_MAX;
         $bestFormatInfo = 0;
 
-        foreach (self::FORMAT_INFO_DECODE_LOOKUP as $decodeInfo) {
+        foreach (self::$FORMAT_INFO_DECODE_LOOKUP as $decodeInfo) {
             $targetInfo = $decodeInfo[0];
 
             if ($targetInfo === $maskedFormatInfo1 || $targetInfo === $maskedFormatInfo2) {
@@ -168,8 +168,10 @@ class FormatInformation
 
     /**
      * Returns the error correction level.
+     *
+     * @return \BaconQrCode\Common\ErrorCorrectionLevel
      */
-    public function getErrorCorrectionLevel() : ErrorCorrectionLevel
+    public function getErrorCorrectionLevel()
     {
         return $this->ecLevel;
     }
@@ -177,7 +179,7 @@ class FormatInformation
     /**
      * Returns the data mask.
      */
-    public function getDataMask() : int
+    public function getDataMask()
     {
         return $this->dataMask;
     }
@@ -185,7 +187,7 @@ class FormatInformation
     /**
      * Hashes the code of the EC level.
      */
-    public function hashCode() : int
+    public function hashCode()
     {
         return ($this->ecLevel->getBits() << 3) | $this->dataMask;
     }
@@ -193,7 +195,7 @@ class FormatInformation
     /**
      * Verifies if this instance equals another one.
      */
-    public function equals(self $other) : bool
+    public function equals(self $other)
     {
         return (
             $this->ecLevel === $other->ecLevel

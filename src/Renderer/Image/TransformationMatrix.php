@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace BaconQrCode\Renderer\Image;
 
@@ -15,7 +14,7 @@ final class TransformationMatrix
         $this->values = [1, 0, 0, 1, 0, 0];
     }
 
-    public function multiply(self $other) : self
+    public function multiply(self $other)
     {
         $matrix = new self();
         $matrix->values[0] = $this->values[0] * $other->values[0] + $this->values[2] * $other->values[1];
@@ -30,21 +29,21 @@ final class TransformationMatrix
         return $matrix;
     }
 
-    public static function scale(float $size) : self
+    public static function scale($size)
     {
         $matrix = new self();
         $matrix->values = [$size, 0, 0, $size, 0, 0];
         return $matrix;
     }
 
-    public static function translate(float $x, float $y) : self
+    public static function translate($x, $y)
     {
         $matrix = new self();
         $matrix->values = [1, 0, 0, 1, $x, $y];
         return $matrix;
     }
 
-    public static function rotate(int $degrees) : self
+    public static function rotate($degrees)
     {
         $matrix = new self();
         $rad = deg2rad($degrees);
@@ -58,7 +57,7 @@ final class TransformationMatrix
      *
      * @return float[]
      */
-    public function apply(float $x, float $y) : array
+    public function apply($x, $y)
     {
         return [
             $x * $this->values[0] + $y * $this->values[2] + $this->values[4],
